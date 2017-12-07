@@ -1,5 +1,7 @@
 import arcade
 import Player
+import Token
+import random
 screenWidth = 800
 screenHeight = 600
 recWidth = 50
@@ -14,6 +16,7 @@ class application(arcade.Window):
         super().__init__(width, height, title="Keyboard Control")
         self.player = None
         self.follower = None
+        self.token = None
         self.left_down = False
 
     def setup(self):
@@ -21,11 +24,16 @@ class application(arcade.Window):
         height = recHeight
         x = screenWidth // 2
         y = screenHeight // 2
+        tokenH = 9
+        tokenW = 9
         angle = 0
         color = arcade.color.WHITE
         fcolor = arcade.color.RED
+        tcolor = arcade.color.YELLOW
         self.player = Player.player(x, y, width, height, angle, color)
         self.follower = Player.player(x + 20, y + 20, width, height, angle, fcolor)
+        self.token = Token.token(random.randint(-300, 300), random.randint(-200, 200), tokenW, tokenH, tcolor, angle)
+
         self.left_down = False
 
     def update(self, dt):
@@ -47,6 +55,7 @@ class application(arcade.Window):
         arcade.start_render()
         self.player.draw()
         self.follower.draw()
+        self.token.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
