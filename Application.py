@@ -5,12 +5,15 @@ screenHeight = 600
 recWidth = 50
 recHeight = 50
 moveSpeed = 5
+fMoveSpeed = 3
+
 
 class application(arcade.Window):
 
     def __init__(self, width, height):
         super().__init__(width, height, title="Keyboard Control")
         self.player = None
+        self.follower = None
         self.left_down = False
 
     def setup(self):
@@ -20,15 +23,30 @@ class application(arcade.Window):
         y = screenHeight // 2
         angle = 0
         color = arcade.color.WHITE
+        fcolor = arcade.color.RED
         self.player = Player.player(x, y, width, height, angle, color)
+        self.follower = Player.player(x + 20, y + 20, width, height, angle, fcolor)
         self.left_down = False
 
     def update(self, dt):
         self.player.move()
+        self.follower.move()
+
+        # Makes follower follow the player
+        # TODO stop the follower from shaking
+        if self.follower.x < self.player.x:
+            self.follower.delta_x = fMoveSpeed
+        if self.follower.x > self.player.x:
+            self.follower.delta_x = -fMoveSpeed
+        if self.follower.y < self.player.y:
+            self.follower.delta_y = fMoveSpeed
+        if self.follower.y > self.player.y:
+            self.follower.delta_y = -fMoveSpeed
 
     def on_draw(self):
         arcade.start_render()
         self.player.draw()
+        self.follower.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
