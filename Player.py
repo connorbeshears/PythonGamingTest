@@ -1,12 +1,14 @@
+
 import arcade
 
-sHeight = 800
-sWidth = 600
+screenWidth = 800
+screenHeight = 600
 recWidth = 50
 recHeight = 50
 moveSpeed = 5
 
-class Player:
+
+class player:
 
     def __init__(self, x, y, width, height, angle, color):
         self.x = x
@@ -29,4 +31,13 @@ class Player:
 
         if self.x < recWidth // 2:
             self.x = recWidth // 2
-        #TODO: Finish this here
+        if self.x > screenWidth - (recWidth // 2):
+            self.x = screenWidth - (recWidth // 2)
+
+        self.y += self.delta_y
+
+        if self.y < recHeight // 2:
+            self.y = recHeight // 2
+        if self.y > screenHeight - (recHeight // 2):
+            self.y = screenHeight - (recHeight // 2)
+
