@@ -7,7 +7,7 @@ screenHeight = 600
 recWidth = 50
 recHeight = 50
 moveSpeed = 5
-fMoveSpeed = 3
+fMoveSpeed = 2
 
 
 class application(arcade.Window):
@@ -18,8 +18,10 @@ class application(arcade.Window):
         self.follower = None
         self.token = None
         self.left_down = False
+        self.score = 0
 
     def setup(self):
+
         width = recWidth
         height = recHeight
         x = screenWidth // 2
@@ -32,7 +34,7 @@ class application(arcade.Window):
         tcolor = arcade.color.YELLOW
         self.player = Player.player(x, y, width, height, angle, color)
         self.follower = Player.player(x + 20, y + 20, width, height, angle, fcolor)
-        self.token = Token.token(random.randint(-300, 300), random.randint(-200, 200), tokenW, tokenH, tcolor, angle)
+        self.token = Token.token(tokenW, tokenH, tcolor, angle)
 
         self.left_down = False
 
@@ -51,11 +53,20 @@ class application(arcade.Window):
         if self.follower.y > self.player.y:
             self.follower.delta_y = -fMoveSpeed
 
+        if (self.player.x < (self.token.x + 25) and self.player.x > (self.token.x - 25)
+                and self.player.y < (self.token.y + 25) and self.player.y > (self.token.y - 25)):
+            self.token.resPos()
+            self.score += 1
+
+        #arcade.draw_text("Points: " + str(self.score), 50, 550, arcade.color.WHITE, 12)
+
+
     def on_draw(self):
         arcade.start_render()
+        self.token.draw()
         self.player.draw()
         self.follower.draw()
-        self.token.draw()
+        arcade.draw_text("Points: " + str(self.score), 50, 550, arcade.color.WHITE, 12)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
