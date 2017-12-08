@@ -10,7 +10,7 @@ moveSpeed = 5
 
 class player:
 
-    def __init__(self, x, y, width, height, angle, color):
+    def __init__(self, x, y, width, height, angle, color, health):
         self.x = x
         self.y = y
 
@@ -21,6 +21,7 @@ class player:
         self.height = height
         self.angle = angle
         self.color = color
+        self.health = health
 
     def draw(self):
         arcade.draw_rectangle_filled(self.x, self.y, self.width,
