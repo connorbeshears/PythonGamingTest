@@ -62,14 +62,11 @@ class application(arcade.Window):
         angle = math.atan2(diffY, diffX)
         self.turret.angle = math.degrees(angle)
 
-        if self.frameCount % 60 == 0:
+        if self.frameCount % 20 == 0:
             self.bullet = Bullet.Bullet(startX, startY, self.turret.angle)
             self.bullet.deltaX = math.cos(angle) * bulletSpeed
             self.bullet.deltaY = math.sin(angle) * bulletSpeed
             self.bulletList.append(self.bullet)
-
-        for bullet in self.bulletList:
-            bullet.move()
 
 
         if (self.player.x < (self.token.x + 25) and self.player.x > (self.token.x - 25)
@@ -82,7 +79,9 @@ class application(arcade.Window):
         self.token.draw()
         self.player.draw()
         self.turret.draw()
-        self.bullet.draw()
+        for bullet in self.bulletList:
+            bullet.move()
+            bullet.draw()
         arcade.draw_text("Points: " + str(self.score), 50, 550, arcade.color.WHITE, 12)
 
     def on_key_press(self, key, modifiers):
